@@ -32,4 +32,8 @@ worked by pressing play with hard coded test.m4a
 - added fp16=False to model.transcribe to avoid that error in terminal about needing to use fp32
 
 TODO:
-+ option of a single file OR the folder
++ look into voice memo default folder like this project:
+https://github.com/michaelgriscom/voice-memo-transcription/blob/main/transcribe.py
++ chatgpt to come up with filenames based on transcription
++ whisper-at for audio-event labels
+https://github.com/YuanGongND/whisper-at/blob/main/audioset_label.csv

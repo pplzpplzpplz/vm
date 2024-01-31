@@ -3,30 +3,41 @@ import argparse
 import os
 
 def main():
+    language = "en"
+    initial_prompt = "The following is a recording of my playing the acoustic guitar, and singing along. Please ignore the guitar and only focus on the words being sung."
     parser = argparse.ArgumentParser(description='Voice Memo - (c) 2024 Caleb Moore') 
-    # parser.add_argument('audiofilename', type=str, help='Name of the audio file to process')
-    parser.add_argument('audiofolder', type=str, help='Name of the folder to process')
+    parser.add_argument('--file', type=str, help='Name of the audio file to process')
+    parser.add_argument('--folder', type=str, help='Name of the folder to process')
+    parser.add_argument('--model', type=str, help='Name of the model to use')
     args = parser.parse_args()
     
-    # audiofile = args.audiofilename
-    audiofolder = args.audiofolder
-    model = whisper.load_model("base")
+    if args.model:
+      model = whisper.load_model(args.model)
+    else:
+      model = whisper.load_model("base")
 
-    # loop through each file inside of the audiofolder file folder and transcribe it
-    for file in os.listdir(audiofolder):
-        audiofile = os.path.join(audiofolder, file)
-        print(f"Processing file: {audiofile}")
+
+    if args.file:
+        audiofile = args.file
+        print(f"Single file mode: {audiofile}")
         result = model.transcribe(audiofile, fp16=False)
-        language = "en"
-        print(file + result["text"])
-
-
-    # print(f"Processing file: {audiofile}")
-
-    # result = model.transcribe(audiofile, fp16=False)
-    # language = "en"
-
-    # print(result["text"])
+        audiofile = audiofile.split('.')[0] # remove the audio extension
+        with open (f"{audiofile}.txt", "w") as f:
+            f.write(result["text"])
+    elif args.folder:
+        audiofolder = args.folder
+        print(f"Folder mode: {audiofolder}")
+        for file in os.listdir(audiofolder):
+            if file != '.DS_Store':
+              audiofile = os.path.join(audiofolder, file)
+              print(f"Processing file: {audiofile}")
+              result = model.transcribe(audiofile, fp16=False)
+              with open (f"{audiofile.split('.')[0]}.txt", "w") as f:
+                  f.write(result["text"])
+    print("Done!")
+    os.system("""
+          osascript -e 'display notification "done!" with title "VM"'
+          """)
 
 if __name__ == "__main__":
     main()
