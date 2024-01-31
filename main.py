@@ -3,7 +3,7 @@ import argparse
 import os
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='MemoMate - (c) 2024 Caleb Moore') 
+    parser = argparse.ArgumentParser(description='Voice Memo Mate - (c) 2024 Caleb Moore') 
     parser.add_argument('--file', type=str, help='Name of the audio file to process (e.g. "vm audio.wav")')
     parser.add_argument('--folder', type=str, help='Name of the folder to process (e.g. "vm test/")')
     parser.add_argument('--model', type=str, default="base", help='Name of the model to use (default is "base")')

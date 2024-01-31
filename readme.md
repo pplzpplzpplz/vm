@@ -1,6 +1,6 @@
-# MemoMate 
+# Voice Memo Mate 
 
-Bulk voice Memo Categorization, Naming, Description and Transcription
+Bulk voice Memo Categorization, Naming, Description and Transcription using OpenAI's Whisper model.
 
 ## Initial environment setup
 - created python environment in vscode using VENV
@@ -17,7 +17,7 @@ Bulk voice Memo Categorization, Naming, Description and Transcription
 ```
     usage: vm [-h] [--file FILE] [--folder FOLDER] [--model MODEL]
 
-    Voice Memo - (c) 2024 Caleb Moore
+    Voice Memo Mate - (c) 2024 Caleb Moore
 
     options:
       -h, --help       show this help message and exit
