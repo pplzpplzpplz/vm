@@ -49,7 +49,7 @@ def main():
     
     print("Done!")
     os.system("""
-          osascript -e 'display notification "done!" with title "Sonarch"'
+          osascript -e 'display notification "done!" with title "VM"'
           """)
 
 if __name__ == "__main__":
