@@ -1,6 +1,10 @@
 import whisper
 import argparse
 import os
+import pwd
+
+def get_username():
+    return pwd.getpwuid(os.getuid())[0]
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Voice Memo Mate - (c) 2024 Caleb Moore') 
@@ -16,7 +20,11 @@ def main():
     args = parse_arguments()
     model = whisper.load_model(args.model)
 
+    username = get_username()
+    print("username:", username)
 
+    voiceMemoFolder = f"/Users/{username}/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings"
+    print("icloud voice memo location:", voiceMemoFolder)
 
     if args.file:
         audiofile = args.file
