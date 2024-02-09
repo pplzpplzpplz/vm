@@ -33,9 +33,9 @@ Bulk voice Memo Categorization, Naming, Description and Transcription using Open
 - Forces `fp32` by setting `fp16=False` on `model.transcribe` (to avoid command line error)
 
 ## TODO 
-+ chatgpt to come up with filenames based on transcription
 + whisper-at for audio-event labels- genre, describes sounds, etc!
 https://github.com/YuanGongND/whisper-at/blob/main/audioset_label.csv
++ chatgpt to come up with filenames based on transcription
 
 
 ## props to:

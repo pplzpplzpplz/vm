@@ -1,4 +1,4 @@
-import whisper
+import whisper_at as whisper
 import argparse
 import os
 import pwd
@@ -14,11 +14,17 @@ def parse_arguments():
     return parser.parse_args()
 
 def main():
+    #whisper-at
+    audio_tagging_time_resolution = 10
+    model = whisper.load_model("large-v1")
+
+
+
     language = "en"
     # initial_prompt = "The following is a recording of me playing the acoustic guitar, and singing along. Please ignore the guitar and only focus on the words being sung."
 
     args = parse_arguments()
-    model = whisper.load_model(args.model)
+    # model = whisper.load_model(args.model)
 
     username = get_username()
     print("username:", username)
@@ -29,10 +35,13 @@ def main():
     if args.file:
         audiofile = args.file
         print(f"Single file mode: {audiofile}")
-        result = model.transcribe(audiofile, fp16=False)
+        result = model.transcribe(audiofile, fp16=False, at_time_res=audio_tagging_time_resolution)
+        audio_tag_result = whisper.parse_at_label(result, language='follow_asr', top_k=5, p_threshold=-1, include_class_list=list(range(527)))
         # write the new file but remove the audio extension before adding .txt
         with open (f"{audiofile.split('.')[0]}.txt", "w") as f:
             f.write(result["text"])
+            f.write("\n Audio Event tags: \n")
+            f.write(str(audio_tag_result))
     elif args.folder:
         audiofolder = args.folder
         print(f"Folder mode: {audiofolder}")
@@ -40,9 +49,12 @@ def main():
             if file != '.DS_Store':
               audiofile = os.path.join(audiofolder, file)
               print(f"Processing file: {audiofile}")
-              result = model.transcribe(audiofile, fp16=False)
+              result = model.transcribe(audiofile, fp16=False, at_time_res=audio_tagging_time_resolution)
+              audio_tag_result = whisper.parse_at_label(result, language='follow_asr', top_k=5, p_threshold=-1, include_class_list=list(range(527)))
               with open (f"{audiofile.split('.')[0]}.txt", "w") as f:
-                  f.write(result["text"])
+                f.write(result["text"])
+                f.write("\n Audio Event tags: \n")
+                f.write(str(audio_tag_result))
     else:
       print("Error: Please provide either --file or --folder argument.")
       return
