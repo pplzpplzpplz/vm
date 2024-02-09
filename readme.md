@@ -13,6 +13,11 @@ Bulk voice Memo Categorization, Naming, Description and Transcription using Open
 
 `alias vm="/Users/caleb/git/vm/.venv/bin/python /Users/caleb/git/vm/main.py"`
 
+## warp / whisper at note
+- be sure to use the correct venv by running from git folder:
+
+`source .venv/bin/activate`
+
 ## Script usage
 ```
     usage: vm [-h] [--file FILE] [--folder FOLDER] [--model MODEL]

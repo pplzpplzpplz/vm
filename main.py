@@ -18,8 +18,6 @@ def main():
     audio_tagging_time_resolution = 10
     model = whisper.load_model("large-v1")
 
-
-
     language = "en"
     # initial_prompt = "The following is a recording of me playing the acoustic guitar, and singing along. Please ignore the guitar and only focus on the words being sung."
 
@@ -40,7 +38,11 @@ def main():
         # write the new file but remove the audio extension before adding .txt
         with open (f"{audiofile.split('.')[0]}.txt", "w") as f:
             f.write(result["text"])
-            f.write("\n Audio Event tags: \n")
+            f.write("\n \n Audio Event tags: \n \n")
+            for item in audio_tag_result:
+              # loop through the list and write each object's list of "audio tags" to the file
+              f.write(str(item.get("audio tags")))
+              f.write("\n")
             f.write(str(audio_tag_result))
     elif args.folder:
         audiofolder = args.folder
@@ -53,7 +55,7 @@ def main():
               audio_tag_result = whisper.parse_at_label(result, language='follow_asr', top_k=5, p_threshold=-1, include_class_list=list(range(527)))
               with open (f"{audiofile.split('.')[0]}.txt", "w") as f:
                 f.write(result["text"])
-                f.write("\n Audio Event tags: \n")
+                f.write("\n \n Audio Event tags: \n \n")
                 f.write(str(audio_tag_result))
     else:
       print("Error: Please provide either --file or --folder argument.")
@@ -66,8 +68,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
